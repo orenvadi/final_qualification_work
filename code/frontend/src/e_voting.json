@@ -1,0 +1,292 @@
+{
+  "address": "7UfykF9iXWorPS7A3SvgZmJzCTCxpVEqfLyBPw4K51YH",
+  "metadata": {
+    "name": "e_voting",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "create",
+      "discriminator": [
+        24,
+        30,
+        200,
+        40,
+        5,
+        28,
+        7,
+        119
+      ],
+      "accounts": [
+        {
+          "name": "proposal",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "pid",
+          "type": "u8"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "vote_no",
+      "discriminator": [
+        19,
+        73,
+        172,
+        113,
+        137,
+        153,
+        84,
+        101
+      ],
+      "accounts": [
+        {
+          "name": "proposal",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "vote",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  111,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "proposal"
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "vote_yes",
+      "discriminator": [
+        215,
+        159,
+        174,
+        223,
+        127,
+        240,
+        230,
+        60
+      ],
+      "accounts": [
+        {
+          "name": "proposal",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "vote",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  111,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "proposal"
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Proposal",
+      "discriminator": [
+        26,
+        94,
+        189,
+        187,
+        116,
+        136,
+        53,
+        33
+      ]
+    },
+    {
+      "name": "Vote",
+      "discriminator": [
+        96,
+        91,
+        104,
+        57,
+        145,
+        35,
+        172,
+        155
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "DescriptionTooLong",
+      "msg": "Cannot initialize, description too long"
+    },
+    {
+      "code": 6001,
+      "name": "VotingSessionIsClosed",
+      "msg": "Voting session is closed"
+    },
+    {
+      "code": 6002,
+      "name": "DuplicatedVoteNotAllowed",
+      "msg": "You can just submit one vote per proposal"
+    },
+    {
+      "code": 6003,
+      "name": "MaxYesVotesReached",
+      "msg": "Maximum number of yes votes reached"
+    },
+    {
+      "code": 6004,
+      "name": "MaxNoVotesReached",
+      "msg": "Maximum number of no votes reached"
+    }
+  ],
+  "types": [
+    {
+      "name": "Proposal",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pid",
+            "type": "u8"
+          },
+          {
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "name": "yes_votes",
+            "type": "u32"
+          },
+          {
+            "name": "no_votes",
+            "type": "u32"
+          },
+          {
+            "name": "ongoing",
+            "type": "bool"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Vote",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "proposal",
+            "type": "pubkey"
+          },
+          {
+            "name": "vote",
+            "type": {
+              "defined": {
+                "name": "VoteType"
+              }
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VoteType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "YesVote"
+          },
+          {
+            "name": "NoVote"
+          }
+        ]
+      }
+    }
+  ]
+}

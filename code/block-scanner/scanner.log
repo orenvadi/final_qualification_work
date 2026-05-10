@@ -1,0 +1,9 @@
+2026/05/11 02:06:19 Resuming from signature: 3VF3qYsDP791xvnyu8jgiHD41XkFTE8bewbvitCWMpFtYzxK1TMKbxr52B3SB69cXdm1MQMYs1j4Sy2LupSfznTe
+2026/05/11 02:06:19 Starting Solana block scanner for e-voting program...
+2026/05/11 02:06:19 Web server listening on http://localhost:8080
+2026/05/11 02:17:11 ✓ Saved vote: B3RnYpyAc9WUFzyj97nP8Xgaoi9RRSSjYfi8jmzgDJGe voted NO on 7vbwd7g2aUr8QjUw28VxKMenZQfvHRjHQxBpPfwPKkdg
+2026/05/11 02:48:19 Error fetching signatures: rpc call getSignaturesForAddress() on https://api.devnet.solana.com: Post "https://api.devnet.solana.com": read tcp 10.105.207.177:55786->74.63.203.93:443: read: connection reset by peer
+2026/05/11 02:50:43 Error fetching signatures: rpc call getSignaturesForAddress() on https://api.devnet.solana.com: Post "https://api.devnet.solana.com": read tcp 10.105.207.177:40494->74.63.203.93:443: read: connection reset by peer
+2026/05/11 03:13:02 Error fetching signatures: rpc call getSignaturesForAddress() on https://api.devnet.solana.com: Post "https://api.devnet.solana.com": read tcp 10.105.207.177:58664->74.63.203.93:443: read: connection reset by peer
+2026/05/11 03:15:38 Error fetching signatures: rpc call getSignaturesForAddress() on https://api.devnet.solana.com: Post "https://api.devnet.solana.com": read tcp 10.105.207.177:45936->74.63.203.93:443: read: connection reset by peer
+2026/05/11 03:16:25 Error fetching signatures: rpc call getSignaturesForAddress() on https://api.devnet.solana.com: Post "https://api.devnet.solana.com": read tcp 10.105.207.177:38380->74.63.203.93:443: read: connection reset by peer

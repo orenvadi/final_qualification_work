@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Voting Scanner Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f4f6f8; padding: 20px; }
+        .table-container { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .vote-yes { color: #198754; font-weight: bold; background-color: #d1e7dd; padding: 4px 8px; border-radius: 4px; }
+        .vote-no { color: #dc3545; font-weight: bold; background-color: #f8d7da; padding: 4px 8px; border-radius: 4px; }
+        .hash { font-family: 'Courier New', Courier, monospace; font-size: 0.9em; }
+        .truncate { max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; vertical-align: middle; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center my-4">
+            <div>
+                <h1 class="h3 mb-0">E-Voting Explorer</h1>
+                <p class="text-muted mb-0">Live view of recorded votes from the Solana Devnet.</p>
+            </div>
+            <button onclick="window.location.reload();" class="btn btn-outline-primary">Refresh Data</button>
+        </div>
+
+        <div class="table-container">
+            <table class="table table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Time</th>
+                        <th scope="col">Voter Address</th>
+                        <th scope="col">Proposal Address</th>
+                        <th scope="col">Vote</th>
+                        <th scope="col">Transaction</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{if .Votes}}
+                        {{range .Votes}}
+                        <tr>
+                            <td class="align-middle">{{.BlockTime}}</td>
+                            <td class="align-middle">
+                                <span class="hash truncate" title="{{.Voter}}">{{.Voter}}</span>
+                            </td>
+                            <td class="align-middle">
+                                <span class="hash truncate" title="{{.Proposal}}">{{.Proposal}}</span>
+                            </td>
+                            <td class="align-middle">
+                                {{if eq .VoteType "YES"}}
+                                    <span class="vote-yes">YES</span>
+                                {{else}}
+                                    <span class="vote-no">NO</span>
+                                {{end}}
+                            </td>
+                            <td class="align-middle">
+                                <a href="https://explorer.solana.com/tx/{{.Signature}}?cluster=devnet" target="_blank" class="text-decoration-none hash truncate" title="{{.Signature}}">
+                                    {{.Signature}}
+                                </a>
+                            </td>
+                        </tr>
+                        {{end}}
+                    {{else}}
+                        <tr>
+                            <td colspan="5" class="text-center py-4 text-muted">No votes scanned yet. Waiting for transactions...</td>
+                        </tr>
+                    {{end}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
