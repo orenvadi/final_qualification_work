@@ -17,12 +17,12 @@
   set page(paper: "a4", margin: (top: 2cm, bottom: 2cm, left: 3cm, right: 1.5cm))
 
   set text(font: "Times New Roman", size: 14pt, lang: "ru")
-  set par(justify: true, first-line-indent: (amount: 1cm, all: true), spacing: 0.55em, leading: 0.55em)
+  set par(justify: false, first-line-indent: (amount: 1cm, all: true), spacing: 0.55em, leading: 0.55em)
 
   // --- Header ---
   align(center)[
     #upper(text(weight: "bold", size: 12pt)[
-      Министерство образования и науки Кыргызской Республики \
+      Министерство науки, высшего образования и инноваций кыргызской республики \
       Кыргызско-Германский институт прикладной информатики
     ])
   ]
@@ -49,7 +49,7 @@
       [студент группы #group],
       [#author],
       [Руководитель практики:],
-      [Заведующий кафедрой, доцент],
+      [к.т.н. доцент],
       [#supervisor#text("_______")],
     ))
   ]

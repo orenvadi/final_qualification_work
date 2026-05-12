@@ -21,11 +21,11 @@
 )
 
 // Содержание
-#align(center)[
-  #heading(level: 1, numbering: none)[СОДЕРЖАНИЕ]
-]
-#outline(title: none, depth: 3)
-#pagebreak()
+// #align(center)[
+// #heading(level: 1, numbering: none)[СОДЕРЖАНИЕ]
+// ]
+// #outline(title: none, depth: 3)
+// #pagebreak()
 
 #heading(level: 1, numbering: none)[ВВЕДЕНИЕ]
 
@@ -55,16 +55,16 @@
 
 *Научная новизна и практическая значимость.* Практическая значимость работы заключается в создании готового к эксплуатации прототипа децентрализованной системы голосования, которая решает проблему масштабируемости за счет использования экосистемы Solana. Разработанный комплекс (включающий смарт-контракт, DApp и независимый сервис аудита) может быть адаптирован для проведения реальных корпоративных опросов, голосований в совете директоров (DAO) или использован в качестве основы для разработки государственных систем электронного голосования нового поколения.
 
-*Структура работы.* Выпускная квалификационная работа состоит из введения, трех глав, заключения, списка использованных источников и приложений. 
-Первая глава посвящена анализу предметной области, изучению существующих аналогов и формализации требований. 
-Во второй главе приведено проектирование системы, детальное описание архитектуры, концепции Program Derived Addresses (PDA) и моделей данных. 
+*Структура работы.* Выпускная квалификационная работа состоит из введения, трех глав, заключения, списка использованных источников и приложений.
+Первая глава посвящена анализу предметной области, изучению существующих аналогов и формализации требований.
+Во второй главе приведено проектирование системы, детальное описание архитектуры, концепции Program Derived Addresses (PDA) и моделей данных.
 В третьей главе изложена программная реализация каждого компонента комплекса, представлены результаты тестирования и руководства пользователей.
 
 #chapter("1", "АНАЛИТИЧЕСКАЯ ЧАСТЬ")
 
 #section("1.1", "Исследование и анализ предметной области темы ВКР")
 
-Голосование является фундаментальным процессом в любой социальной структуре. С технологической точки зрения, эволюция систем голосования прошла путь от устных опросов и бумажных бюллетеней до электромеханических машин и современных цифровых систем. В последние десятилетия концепция электронного голосования (E-voting) получила широкое распространение во многих странах мира (Эстония, Швейцария, США, Россия и др.). 
+Голосование является фундаментальным процессом в любой социальной структуре. С технологической точки зрения, эволюция систем голосования прошла путь от устных опросов и бумажных бюллетеней до электромеханических машин и современных цифровых систем. В последние десятилетия концепция электронного голосования (E-voting) получила широкое распространение во многих странах мира (Эстония, Швейцария, США, Россия и др.).
 
 Основными требованиями, предъявляемыми к идеальной системе электронного голосования, согласно международным стандартам информационной безопасности, являются:
 1. *Целостность (Integrity):* ни один голос не может быть изменен, удален или признан недействительным в процессе передачи и хранения. Подсчет должен быть математически точным.
@@ -76,7 +76,7 @@
 
 В традиционных централизованных ИТ-архитектурах достижение сквозной проверяемости представляет собой крайне сложную задачу. Типовая система состоит из веб-сервера, базы данных SQL и серверов аутентификации. Главный концептуальный недостаток такой модели — необходимость доверия третьему лицу (Trusted Third Party). Администратор системы, имеющий доступ уровня `root`, теоретически способен выполнить команду `UPDATE votes SET candidate_id = X WHERE voter_id = Y`, и выявить этот факт внешнему аудитору практически невозможно, если логи системы также контролируются администратором.
 
-Именно поэтому технология блокчейн рассматривается криптографами и инженерами как наиболее перспективное решение проблемы электронного голосования. Блокчейн — это распределенная база данных, которая поддерживается сетью равноправных узлов. Данные в блокчейне организованы в виде цепочки блоков, где каждый последующий блок содержит криптографический хэш предыдущего. 
+Именно поэтому технология блокчейн рассматривается криптографами и инженерами как наиболее перспективное решение проблемы электронного голосования. Блокчейн — это распределенная база данных, которая поддерживается сетью равноправных узлов. Данные в блокчейне организованы в виде цепочки блоков, где каждый последующий блок содержит криптографический хэш предыдущего.
 
 Ключевые свойства блокчейна, решающие проблемы E-voting:
 - *Децентрализация:* отсутствие единого центра управления означает, что нет единого сервера, который можно взломать (DDoS-атаки или проникновение).
@@ -86,8 +86,10 @@
 
 Для того чтобы исключить человеческий фактор в момент самого подсчета, в блокчейн-сетях используются "Смарт-контракты" (Smart Contracts). Смарт-контракт — это компьютерная программа или протокол транзакции, который автоматически исполняется при выполнении определенных условий, заложенных в его код. Код контракта загружается в блокчейн и становится таким же неизменяемым, как и данные. Таким образом, логика "Если избиратель еще не голосовал, добавить 1 к счетчику кандидата" выполняется децентрализованной сетью строго по алгоритму, и никто не может изменить этот алгоритм в процессе выборов.
 
-
-#section("1.2", "Анализ моделей, методов и программных продуктов для решения подобных задач (международная и отечественная практика)")
+#section(
+  "1.2",
+  "Анализ моделей, методов и программных продуктов для решения подобных задач (международная и отечественная практика)",
+)
 
 Идея проведения выборов на блокчейне не нова, и на международном рынке существует несколько заметных проектов, каждый из которых использует различные платформы и алгоритмы консенсуса.
 
@@ -102,33 +104,47 @@
 
 В таблице 1 приведено сравнение популярных блокчейн-платформ с точки зрения их применимости для электронного голосования.
 
-#figure(
-  table(
-    columns: (1.5fr, 1fr, 1fr, 1fr),
-    stroke: 0.5pt,
-    align: center + horizon,
-    [*Характеристика*], [*Bitcoin*], [*Ethereum*], [*Solana*],
-    [Алгоритм консенсуса], [PoW (Proof of Work)], [PoS (Proof of Stake)], [PoH + PoS],
-    [Смарт-контракты], [Ограниченные (Script)], [Тьюринг-полные (Solidity)], [Тьюринг-полные (Rust/C)],
-    [Скорость (TPS)], [~7], [~15-30], [до 65 000],
-    [Время блока], [10 минут], [~12 секунд], [~400 миллисекунд],
-    [Стоимость транзакции (голоса)], [Высокая (\$2-\$20)], [Высокая (\$1-\$50)], [Доли цента (\$0.00025)],
-    [Целесообразность для E-Voting], [Низкая], [Средняя (для локальных)], [Высокая (для массовых)]
-  ),
-  caption: [Сравнение базовых блокчейн-платформ для смарт-контрактов]
-)
+#figure(table(
+  columns: (1.5fr, 1fr, 1fr, 1fr),
+  stroke: 0.5pt,
+  align: center + horizon,
+  [*Характеристика*],
+  [*Bitcoin*],
+  [*Ethereum*],
+  [*Solana*],
+  [Алгоритм консенсуса],
+  [PoW (Proof of Work)],
+  [PoS (Proof of Stake)],
+  [PoH + PoS],
+  [Смарт-контракты],
+  [Ограниченные (Script)],
+  [Тьюринг-полные (Solidity)],
+  [Тьюринг-полные (Rust/C)],
+  [Скорость (TPS)],
+  [~7],
+  [~15-30],
+  [до 65 000],
+  [Время блока],
+  [10 минут],
+  [~12 секунд],
+  [~400 миллисекунд],
+  [Стоимость транзакции (голоса)],
+  [Высокая (\$2-\$20)],
+  [Высокая (\$1-\$50)],
+  [Доли цента (\$0.00025)],
+  [Целесообразность для E-Voting],
+  [Низкая],
+  [Средняя (для локальных)],
+  [Высокая (для массовых)],
+), caption: [Сравнение базовых блокчейн-платформ для смарт-контрактов])
 
 #v(20pt)
 
 Из проведенного анализа очевидно, что для построения масштабируемой системы голосования необходимо использовать блокчейн нового поколения. Платформа *Solana* выбрана в качестве основы для данной выпускной квалификационной работы благодаря инновационному алгоритму Proof of History (PoH), который позволяет валидаторам синхронизировать время без ожидания подтверждения от других узлов сети. Это дает колоссальный прирост производительности, делая каждую отправку голоса практически мгновенной для пользователя и не требующей больших финансовых затрат на оплату газа (комиссий).
 
-#figure(
-  block(width: 100%, height: 400pt, stroke: 1pt + black, fill: rgb("f9f9f9"))[
-    #align(center + horizon)[*Место для диаграммы: Сравнение пропускной способности (TPS) Ethereum и Solana*]
-  ],
-  caption: [Сравнительная диаграмма пропускной способности различных блокчейнов]
-)
-
+#figure(block(width: 100%, height: 400pt, stroke: 1pt + black, fill: rgb("f9f9f9"))[
+  #align(center + horizon)[*Место для диаграммы: Сравнение пропускной способности (TPS) Ethereum и Solana*]
+], caption: [Сравнительная диаграмма пропускной способности различных блокчейнов])
 
 #section("1.3", "Постановка и формализация задачи на разработку. Техническое задание")
 
@@ -158,7 +174,7 @@
 - Клиентская часть (Frontend) разрабатывается как Single Page Application (SPA) с использованием библиотеки React и TypeScript.
 - Бэкенд-сканер для мониторинга аудита пишется на языке Go и использует SQLite в качестве легковесного хранилища данных.
 
-*Выводы по Главе 1:* 
+*Выводы по Главе 1:*
 В ходе аналитической части обоснована необходимость отказа от традиционных централизованных систем в пользу распределенного реестра. Выявлены ключевые параметры блокчейн-сетей и сделан обоснованный выбор в пользу Solana. Сформировано подробное техническое задание, которое послужит основой для проектирования архитектуры системы в следующей главе.
 
 #chapter("2", "ПРОЕКТНАЯ ЧАСТЬ")
@@ -172,12 +188,9 @@
 2. *Off-Chain Frontend (React Web App).* Служит точкой взаимодействия с пользователем. Frontend не хранит данные локально и не обращается к традиционному серверу для отправки голоса. Вместо этого он формирует пакет инструкций (Transaction), запрашивает подпись у кошелька пользователя и транслирует транзакцию напрямую к RPC-узлам (Remote Procedure Call) сети Solana.
 3. *Off-Chain Backend & Database (Блок-сканер на Go).* Независимая служба аудита. Слушает сеть через RPC, декодирует блоки, находит вызовы смарт-контракта голосования и кэширует информацию о каждом поданном голосе в традиционную СУБД SQLite для быстрого построения аналитики и исторических отчетов, не нагружая блокчейн тяжелыми запросами на чтение всей истории.
 
-#figure(
-  block(width: 100%, height: 400pt, stroke: 1pt + black, fill: rgb("f9f9f9"))[
-    #align(center + horizon)[*Место для UML диаграммы компонентов системы (Component Diagram)*]
-  ],
-  caption: [Общая архитектура гибридного децентрализованного приложения]
-)
+#figure(block(width: 100%, height: 400pt, stroke: 1pt + black, fill: rgb("f9f9f9"))[
+  #align(center + horizon)[*Место для UML диаграммы компонентов системы (Component Diagram)*]
+], caption: [Общая архитектура гибридного децентрализованного приложения])
 
 Функциональное взаимодействие (Sequence Diagram) при голосовании выглядит следующим образом:
 1. Избиратель выбирает опцию "Голосовать За" в веб-интерфейсе.
@@ -188,13 +201,9 @@
 6. Валидаторы сети получают транзакцию, смарт-контракт проверяет, не голосовал ли пользователь ранее, и увеличивает счетчик.
 7. После включения транзакции в блок, Backend Scanner (Go) обнаруживает ее, парсит инструкцию и добавляет строку в таблицу аудита SQLite.
 
-#figure(
-  block(width: 100%, height: 400pt, stroke: 1pt + black, fill: rgb("f9f9f9"))[
-    #align(center + horizon)[*Место для UML диаграммы последовательности (Sequence Diagram)*]
-  ],
-  caption: [Диаграмма последовательности процесса подачи голоса]
-)
-
+#figure(block(width: 100%, height: 400pt, stroke: 1pt + black, fill: rgb("f9f9f9"))[
+  #align(center + horizon)[*Место для UML диаграммы последовательности (Sequence Diagram)*]
+], caption: [Диаграмма последовательности процесса подачи голоса])
 
 #section("2.2", "Проектирование моделей базы данных: логической и физической")
 
@@ -235,31 +244,43 @@ pub struct Vote {
 Когда пользователь голосует, смарт-контракт пытается проинициализировать новый аккаунт `Vote` по вычисленному PDA адресу. Если пользователь попытается проголосовать второй раз за то же предложение, вычисленный PDA адрес будет абсолютно таким же. Виртуальная машина Solana (BPF) отклонит инструкцию `init` (создание аккаунта), поскольку аккаунт по данному адресу уже существует. Таким образом, уникальность голосов гарантируется на аппаратном уровне блокчейна без использования неэффективных циклов `for` для обхода массивов избирателей.
 
 *Off-chain модель данных (SQLite)*
-Блок-сканер использует традиционную реляционную модель для хранения журнала. 
+Блок-сканер использует традиционную реляционную модель для хранения журнала.
 
 В таблице 2 представлена физическая структура таблицы `votes`.
 
-#figure(
-  table(
-    columns: (1fr, 1fr, 1fr, 2fr),
-    stroke: 0.5pt,
-    align: center + horizon,
-    [*Имя столбца*], [*Тип данных*], [*Ключ/Индекс*], [*Описание*],
-    [`signature`], [TEXT], [Primary Key], [Хэш транзакции (ID) в блокчейне Solana],
-    [`voter`], [TEXT], [Index], [Публичный ключ (адрес) проголосовавшего кошелька],
-    [`proposal`], [TEXT], [Index], [Публичный ключ (PDA) аккаунта предложения],
-    [`vote_type`], [TEXT], [-], [Результат голосования (YES или NO)],
-    [`block_time`], [INTEGER], [Index (DESC)], [Временная метка (Unix Timestamp) блока]
-  ),
-  caption: [Физическая модель данных таблицы votes (SQLite)]
-)
+#figure(table(
+  columns: (1fr, 1fr, 1fr, 2fr),
+  stroke: 0.5pt,
+  align: center + horizon,
+  [*Имя столбца*],
+  [*Тип данных*],
+  [*Ключ/Индекс*],
+  [*Описание*],
+  [`signature`],
+  [TEXT],
+  [Primary Key],
+  [Хэш транзакции (ID) в блокчейне Solana],
+  [`voter`],
+  [TEXT],
+  [Index],
+  [Публичный ключ (адрес) проголосовавшего кошелька],
+  [`proposal`],
+  [TEXT],
+  [Index],
+  [Публичный ключ (PDA) аккаунта предложения],
+  [`vote_type`],
+  [TEXT],
+  [-],
+  [Результат голосования (YES или NO)],
+  [`block_time`],
+  [INTEGER],
+  [Index (DESC)],
+  [Временная метка (Unix Timestamp) блока],
+), caption: [Физическая модель данных таблицы votes (SQLite)])
 
-#figure(
-  block(width: 100%, height: 400pt, stroke: 1pt + black, fill: rgb("f9f9f9"))[
-    #align(center + horizon)[*Место для ER-диаграммы локальной базы данных*]
-  ],
-  caption: [ER-диаграмма сервиса-сканера]
-)
+#figure(block(width: 100%, height: 400pt, stroke: 1pt + black, fill: rgb("f9f9f9"))[
+  #align(center + horizon)[*Место для ER-диаграммы локальной базы данных*]
+], caption: [ER-диаграмма сервиса-сканера])
 
 #section("2.3", "Обоснование выбора аппаратных средств и выбранного стека технологий")
 
@@ -296,7 +317,7 @@ Solana поддерживает написание контрактов на я�
 При инициализации предложения (функция `create`) производится валидация длины описания:
 ```rust
 require!(
-    description.as_bytes().len() <= Proposal::DESCRIPTION_MAXIMUM_LENGTH, 
+    description.as_bytes().len() <= Proposal::DESCRIPTION_MAXIMUM_LENGTH,
     EVotingError::DescriptionTooLong
 );
 ```
@@ -313,7 +334,7 @@ proposal.yes_votes = proposal.yes_votes
 
 *Этап 2. Программная реализация Frontend-приложения (React)*
 Главный файл `App.tsx` содержит настройку контекста `ConnectionProvider` и `WalletProvider`, устанавливая соединение с кластером `devnet` (через публичный RPC).
-Для отправки транзакции голосования используется клиент `Program` из библиотеки `@coral-xyz/anchor`. 
+Для отправки транзакции голосования используется клиент `Program` из библиотеки `@coral-xyz/anchor`.
 Вычисление PDA адреса на стороне клиента реализовано следующим образом:
 ```typescript
 const [votePda] = PublicKey.findProgramAddressSync(
@@ -340,7 +361,6 @@ voteYesSighash := hasher.Sum(nil)[:8]
 
 Вторая горутина запускает `http.ListenAndServe(":8080", nil)`, предоставляя HTML-шаблон для веб-визуализации данных независимого аудита.
 
-
 #section("3.2", "Результаты тестирования программного продукта")
 
 Для подтверждения соответствия разработанного комплекса функциональным требованиям было проведено многоуровневое тестирование.
@@ -353,20 +373,16 @@ voteYesSighash := hasher.Sum(nil)[:8]
 4. Тест двойного голосования (Security). Вызов `vote_yes` вторым разом от того же Signer. Результат: Блокчейн отклоняет транзакцию с `ConstraintRaw` / `Account already initialized`. Уязвимость отсутствует.
 
 *Интеграционное тестирование и развертывание в Devnet*
-Комплекс был успешно развернут в публичной тестовой сети Solana Devnet (Program ID: `7UfykF9iXWorPS7A3SvgZmJzCTCxpVEqfLyBPw4K51YH`). 
+Комплекс был успешно развернут в публичной тестовой сети Solana Devnet (Program ID: `7UfykF9iXWorPS7A3SvgZmJzCTCxpVEqfLyBPw4K51YH`).
 С помощью веб-интерфейса и кошелька Phantom было произведено:
 - Создание серии предложений с разными PID.
 - Голосование с нескольких различных кошельков.
 - В ходе нагрузочного тестирования интерфейса задержка между нажатием кнопки голосования, подписанием транзакции и финальным подтверждением (Confirmation) от блокчейна составляла в среднем около 1.5 - 2 секунд, что подтверждает заявленную высокую производительность сети Solana.
 - Параллельный запуск сканера на Go (команда `./scanner`) успешно скачал всю ретроспективу созданных транзакций и вывел их на локальном порту 8080 в виде форматированной таблицы аудита.
 
-#figure(
-  block(width: 100%, height: 400pt, stroke: 1pt + black, fill: rgb("f9f9f9"))[
-    #align(center + horizon)[*Место для скриншота: Окно отчета об успешном прохождении Unit-тестов Anchor*]
-  ],
-  caption: [Результаты автоматизированного тестирования смарт-контракта]
-)
-
+#figure(block(width: 100%, height: 400pt, stroke: 1pt + black, fill: rgb("f9f9f9"))[
+  #align(center + horizon)[*Место для скриншота: Окно отчета об успешном прохождении Unit-тестов Anchor*]
+], caption: [Результаты автоматизированного тестирования смарт-контракта])
 
 #section("3.3", "Руководство пользователя, программиста")
 
@@ -400,27 +416,21 @@ voteYesSighash := hasher.Sum(nil)[:8]
 7. Расширение Phantom откроет окно для утверждения транзакции (Approval). После нажатия "Approve", транзакция уходит в сеть.
 8. Спустя 2 секунды счетчик на странице обновится. При попытке повторного нажатия система выдаст предупреждение.
 
-#figure(
-  block(width: 100%, height: 400pt, stroke: 1pt + black, fill: rgb("f9f9f9"))[
-    #align(center + horizon)[*Место для скриншота: Главный экран Frontend-приложения с подключенным кошельком*]
-  ],
-  caption: [Пользовательский интерфейс системы электронного голосования]
-)
+#figure(block(width: 100%, height: 400pt, stroke: 1pt + black, fill: rgb("f9f9f9"))[
+  #align(center + horizon)[*Место для скриншота: Главный экран Frontend-приложения с подключенным кошельком*]
+], caption: [Пользовательский интерфейс системы электронного голосования])
 
 Для роли "Наблюдателя" или независимого "Аудитора", пользователю достаточно открыть веб-панель сервиса-сканера (по умолчанию порт 8080). В табличном виде «E-Voting Explorer» аудитор может в режиме реального времени наблюдать список поступающих голосов, адреса кошельков (публичные ключи избирателей) и переходить по ссылкам хэшей транзакций прямо в официальный обозреватель (Solana Explorer) для математического доказательства легитимности каждого голоса.
 
-#figure(
-  block(width: 100%, height: 400pt, stroke: 1pt + black, fill: rgb("f9f9f9"))[
-    #align(center + horizon)[*Место для скриншота: Дашборд сканера аудита (Go Web Server)*]
-  ],
-  caption: [Панель аудита и мониторинга транзакций в реальном времени]
-)
+#figure(block(width: 100%, height: 400pt, stroke: 1pt + black, fill: rgb("f9f9f9"))[
+  #align(center + horizon)[*Место для скриншота: Дашборд сканера аудита (Go Web Server)*]
+], caption: [Панель аудита и мониторинга транзакций в реальном времени])
 
 *Выводы по Главе 3:* В данной главе описана практическая реализация всех спроектированных модулей. Приведены механизмы, предотвращающие несанкционированные действия, описаны алгоритмы взаимодействия клиента с сетью и фонового парсинга блоков. Тестирование доказало надежность и устойчивость к уязвимостям, а написанные руководства обеспечивают простоту использования разработанного комплекса конечными пользователями и администраторами.
 
 #heading(level: 1, numbering: none)[ЗАКЛЮЧЕНИЕ]
 
-В ходе выполнения выпускной квалификационной работы была успешно решена актуальная научно-практическая задача — разработка и программная реализация децентрализованной системы электронного голосования на базе технологии блокчейн. 
+В ходе выполнения выпускной квалификационной работы была успешно решена актуальная научно-практическая задача — разработка и программная реализация децентрализованной системы электронного голосования на базе технологии блокчейн.
 
 Анализ предметной области выявил, что традиционные системы электронного голосования, основанные на централизованных архитектурах (клиент-сервер и реляционные базы данных), обладают критическим недостатком — необходимостью абсолютного доверия к администраторам систем, которые могут скомпрометировать или изменить данные без ведома независимых наблюдателей. Использование технологии распределенного реестра (блокчейн) концептуально устраняет данную проблему, обеспечивая неизменяемость данных, прозрачность процесса и математически доказуемую целостность результатов.
 
@@ -485,10 +495,10 @@ pub mod e_voting {
 
     pub fn create(ctx: Context<CreateProposal>, pid: u8, description: String) -> Result<()> {
         require!(
-            description.as_bytes().len() <= Proposal::DESCRIPTION_MAXIMUM_LENGTH, 
+            description.as_bytes().len() <= Proposal::DESCRIPTION_MAXIMUM_LENGTH,
             EVotingError::DescriptionTooLong
         );
-    
+
         let proposal = &mut ctx.accounts.proposal;
         proposal.pid = pid;
         proposal.description = description;
@@ -513,9 +523,9 @@ pub mod e_voting {
 fn vote(ctx: Context<AddVote>, vote_type: VoteType) -> Result<()> {
     let proposal = &mut ctx.accounts.proposal;
     let vote = &mut ctx.accounts.vote;
-    
+
     require!(proposal.ongoing == true, EVotingError::VotingSessionIsClosed);
-    
+
     vote.user = *ctx.accounts.user.key;
     vote.proposal = proposal.key();
     vote.bump = ctx.bumps.vote;
@@ -523,12 +533,12 @@ fn vote(ctx: Context<AddVote>, vote_type: VoteType) -> Result<()> {
     match vote_type {
         VoteType::YesVote => {
             vote.vote = VoteType::YesVote;
-            proposal.yes_votes = 
+            proposal.yes_votes =
                 proposal.yes_votes.checked_add(1).ok_or(EVotingError::MaxYesVotesReached)?;
         }
         VoteType::NoVote => {
             vote.vote = VoteType::NoVote;
-            proposal.no_votes = 
+            proposal.no_votes =
                 proposal.no_votes.checked_add(1).ok_or(EVotingError::MaxNoVotesReached)?;
         }
     }
@@ -538,8 +548,8 @@ fn vote(ctx: Context<AddVote>, vote_type: VoteType) -> Result<()> {
 #[derive(Accounts)]
 #[instruction(pid: u8)]
 pub struct CreateProposal<'info> {
-    #[account(init, payer=user, space=8 + Proposal::INIT_SPACE, 
-        seeds=[b"proposal", user.key().as_ref(), &[pid]], bump)]  
+    #[account(init, payer=user, space=8 + Proposal::INIT_SPACE,
+        seeds=[b"proposal", user.key().as_ref(), &[pid]], bump)]
     pub proposal: Account<'info, Proposal>,
     #[account(mut)]
     pub user: Signer<'info>,
@@ -601,118 +611,118 @@ pub enum EVotingError {
 package main
 
 import (
-	"bytes"
-	"context"
-	"crypto/sha256"
-	"database/sql"
-	"html/template"
-	"log"
-	"net/http"
-	"time"
+  "bytes"
+  "context"
+  "crypto/sha256"
+  "database/sql"
+  "html/template"
+  "log"
+  "net/http"
+  "time"
 
-	"github.com/gagliardetto/solana-go"
-	"github.com/gagliardetto/solana-go/rpc"
-	_ "github.com/mattn/go-sqlite3"
+  "github.com/gagliardetto/solana-go"
+  "github.com/gagliardetto/solana-go/rpc"
+  _ "github.com/mattn/go-sqlite3"
 )
 
 const (
-	ProgramIDStr = "7UfykF9iXWorPS7A3SvgZmJzCTCxpVEqfLyBPw4K51YH"
-	DBPath       = "./votes.db"
+  ProgramIDStr = "7UfykF9iXWorPS7A3SvgZmJzCTCxpVEqfLyBPw4K51YH"
+  DBPath       = "./votes.db"
 )
 
 type VoteRecord struct {
-	Signature, Voter, Proposal, VoteType, BlockTime string
+  Signature, Voter, Proposal, VoteType, BlockTime string
 }
 type PageData struct { Votes []VoteRecord }
 
 func getSighash(name string) []byte {
-	hasher := sha256.New()
-	hasher.Write([]byte("global:" + name))
-	return hasher.Sum(nil)[:8]
+  hasher := sha256.New()
+  hasher.Write([]byte("global:" + name))
+  return hasher.Sum(nil)[:8]
 }
 
 func main() {
-	db, err := sql.Open("sqlite3", DBPath)
-	if err != nil { log.Fatalf("Failed to open database: %v", err) }
-	defer db.Close()
+  db, err := sql.Open("sqlite3", DBPath)
+  if err != nil { log.Fatalf("Failed to open database: %v", err) }
+  defer db.Close()
 
-	createTableSQL := `CREATE TABLE IF NOT EXISTS votes (
-		signature TEXT PRIMARY KEY,
-		voter TEXT, proposal TEXT, vote_type TEXT, block_time INTEGER
-	);`
-	db.Exec(createTableSQL)
-	go startWebServer(db)
+  createTableSQL := `CREATE TABLE IF NOT EXISTS votes (
+    signature TEXT PRIMARY KEY,
+    voter TEXT, proposal TEXT, vote_type TEXT, block_time INTEGER
+  );`
+  db.Exec(createTableSQL)
+  go startWebServer(db)
 
-	programID := solana.MustPublicKeyFromBase58(ProgramIDStr)
-	client := rpc.New(rpc.DevNet_RPC)
-	voteYesSighash := getSighash("vote_yes")
-	voteNoSighash := getSighash("vote_no")
+  programID := solana.MustPublicKeyFromBase58(ProgramIDStr)
+  client := rpc.New(rpc.DevNet_RPC)
+  voteYesSighash := getSighash("vote_yes")
+  voteNoSighash := getSighash("vote_no")
 
-	var lastProcessedSig solana.Signature
-	var lastSigStr string
-	db.QueryRow(`SELECT signature FROM votes ORDER BY block_time DESC LIMIT 1`).Scan(&lastSigStr)
-	if lastSigStr != "" { lastProcessedSig, _ = solana.SignatureFromBase58(lastSigStr) }
+  var lastProcessedSig solana.Signature
+  var lastSigStr string
+  db.QueryRow(`SELECT signature FROM votes ORDER BY block_time DESC LIMIT 1`).Scan(&lastSigStr)
+  if lastSigStr != "" { lastProcessedSig, _ = solana.SignatureFromBase58(lastSigStr) }
 
-	for {
-		limit := 50
-		opts := &rpc.GetSignaturesForAddressOpts{Limit: &limit}
-		if !lastProcessedSig.IsZero() { opts.Until = lastProcessedSig }
-		ctx := context.Background()
-		sigs, err := client.GetSignaturesForAddressWithOpts(ctx, programID, opts)
-		if err != nil || len(sigs) == 0 { time.Sleep(5 * time.Second); continue }
+  for {
+    limit := 50
+    opts := &rpc.GetSignaturesForAddressOpts{Limit: &limit}
+    if !lastProcessedSig.IsZero() { opts.Until = lastProcessedSig }
+    ctx := context.Background()
+    sigs, err := client.GetSignaturesForAddressWithOpts(ctx, programID, opts)
+    if err != nil || len(sigs) == 0 { time.Sleep(5 * time.Second); continue }
 
-		for i := len(sigs) - 1; i >= 0; i-- {
-			sigInfo := sigs[i]
-			if sigInfo.Err != nil { lastProcessedSig = sigInfo.Signature; continue }
-			processTransaction(ctx, client, db, sigInfo, programID, voteYesSighash, voteNoSighash)
-			lastProcessedSig = sigInfo.Signature
-		}
-		time.Sleep(3 * time.Second)
-	}
+    for i := len(sigs) - 1; i >= 0; i-- {
+      sigInfo := sigs[i]
+      if sigInfo.Err != nil { lastProcessedSig = sigInfo.Signature; continue }
+      processTransaction(ctx, client, db, sigInfo, programID, voteYesSighash, voteNoSighash)
+      lastProcessedSig = sigInfo.Signature
+    }
+    time.Sleep(3 * time.Second)
+  }
 }
 
 func processTransaction(ctx context.Context, client *rpc.Client, db *sql.DB, sigInfo *rpc.TransactionSignature, programID solana.PublicKey, yesHash, noHash []byte) {
-	maxVersion := uint64(0)
-	txInfo, _ := client.GetTransaction(ctx, sigInfo.Signature, &rpc.GetTransactionOpts{MaxSupportedTransactionVersion: &maxVersion})
-	if txInfo == nil || txInfo.Transaction == nil { return }
-	tx, _ := txInfo.Transaction.GetTransaction()
-	
-	accountKeys := tx.Message.AccountKeys
-	for _, inst := range tx.Message.Instructions {
-		if int(inst.ProgramIDIndex) >= len(accountKeys) { continue }
-		if accountKeys[inst.ProgramIDIndex] != programID || len(inst.Data) < 8 { continue }
-		
-		isYes, isNo := bytes.Equal(inst.Data[:8], yesHash), bytes.Equal(inst.Data[:8], noHash)
-		if isYes || isNo {
-			voteType := "NO"
-			if isYes { voteType = "YES" }
-			if len(inst.Accounts) >= 2 {
-				voterPubkey := accountKeys[inst.Accounts[1]]
-				proposalPubkey := accountKeys[inst.Accounts[0]]
-				bt := int64(0)
-				if sigInfo.BlockTime != nil { bt = int64(*sigInfo.BlockTime) }
-				db.Exec(`INSERT OR IGNORE INTO votes VALUES (?, ?, ?, ?, ?)`, sigInfo.Signature.String(), voterPubkey.String(), proposalPubkey.String(), voteType, bt)
-			}
-		}
-	}
+  maxVersion := uint64(0)
+  txInfo, _ := client.GetTransaction(ctx, sigInfo.Signature, &rpc.GetTransactionOpts{MaxSupportedTransactionVersion: &maxVersion})
+  if txInfo == nil || txInfo.Transaction == nil { return }
+  tx, _ := txInfo.Transaction.GetTransaction()
+
+  accountKeys := tx.Message.AccountKeys
+  for _, inst := range tx.Message.Instructions {
+    if int(inst.ProgramIDIndex) >= len(accountKeys) { continue }
+    if accountKeys[inst.ProgramIDIndex] != programID || len(inst.Data) < 8 { continue }
+
+    isYes, isNo := bytes.Equal(inst.Data[:8], yesHash), bytes.Equal(inst.Data[:8], noHash)
+    if isYes || isNo {
+      voteType := "NO"
+      if isYes { voteType = "YES" }
+      if len(inst.Accounts) >= 2 {
+        voterPubkey := accountKeys[inst.Accounts[1]]
+        proposalPubkey := accountKeys[inst.Accounts[0]]
+        bt := int64(0)
+        if sigInfo.BlockTime != nil { bt = int64(*sigInfo.BlockTime) }
+        db.Exec(`INSERT OR IGNORE INTO votes VALUES (?, ?, ?, ?, ?)`, sigInfo.Signature.String(), voterPubkey.String(), proposalPubkey.String(), voteType, bt)
+      }
+    }
+  }
 }
 
 func startWebServer(db *sql.DB) {
-	tmpl := template.Must(template.ParseFiles("templates/index.html"))
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		rows, _ := db.Query(`SELECT * FROM votes ORDER BY block_time DESC LIMIT 100`)
-		defer rows.Close()
-		var votes []VoteRecord
-		for rows.Next() {
-			var v VoteRecord
-			var bt int64
-			rows.Scan(&v.Signature, &v.Voter, &v.Proposal, &v.VoteType, &bt)
-			if bt > 0 { v.BlockTime = time.Unix(bt, 0).Format("2006-01-02 15:04:05") } else { v.BlockTime = "Unknown" }
-			votes = append(votes, v)
-		}
-		tmpl.Execute(w, PageData{Votes: votes})
-	})
-	http.ListenAndServe(":8080", nil)
+  tmpl := template.Must(template.ParseFiles("templates/index.html"))
+  http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+    rows, _ := db.Query(`SELECT * FROM votes ORDER BY block_time DESC LIMIT 100`)
+    defer rows.Close()
+    var votes []VoteRecord
+    for rows.Next() {
+      var v VoteRecord
+      var bt int64
+      rows.Scan(&v.Signature, &v.Voter, &v.Proposal, &v.VoteType, &bt)
+      if bt > 0 { v.BlockTime = time.Unix(bt, 0).Format("2006-01-02 15:04:05") } else { v.BlockTime = "Unknown" }
+      votes = append(votes, v)
+    }
+    tmpl.Execute(w, PageData{Votes: votes})
+  })
+  http.ListenAndServe(":8080", nil)
 }
 ```
 
